@@ -1,6 +1,6 @@
 # BeFSM
 
-**State machine library for Unity. Inspired by [Stateless](https://github.com/dotnet-state-machine/stateless).*
+**State machine library for Unity. Inspired by [Stateless](https://github.com/dotnet-state-machine/stateless).**
 
 ```csharp
 var car = new StateMachine<CarState, CarAction>(State.Idle);
