@@ -100,8 +100,3 @@ var baseMachine = new Machine<State, Trigger>(State.Default);
 var observerMachine = new Machine<State, Trigger>(State.Default);
 baseMachine.StateChanged += (Object sender, StateChangedEventArgs<State> args) => observerMachine.TransitionTo(args.NextState);
 ```
-
-
-## Compatibility
-
-Compatible with Unity versions starting from Unity 2017.1 with experimental Mono runtime enabled.
