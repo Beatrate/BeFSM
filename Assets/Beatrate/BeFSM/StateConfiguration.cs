@@ -13,10 +13,10 @@ namespace Beatrate.BeFSM
 			private StateMachine<TState, TTrigger> machine;
 			private Dictionary<TTrigger, StateCondition> staticTransitions = new Dictionary<TTrigger, StateCondition>();
 			private List<StateCondition> dynamicTransitions = new List<StateCondition>();
-			public Action<TState> EnterAction { get; private set; }
-			public Action<TState> ExitAction { get; private set; }
-			public Action UpdateAction { get; private set; }
-			public bool HasImmediateTransition { get; private set; }
+			public Action<TState> EnterAction { get; private set; } = (state) => { };
+			public Action<TState> ExitAction { get; private set; } = (state) => { };
+			public Action UpdateAction { get; private set; } = () => { };
+			public bool HasImmediateTransition { get; private set; } = false;
 			public TState ImmediateTransitionDestinationState
 			{
 				get
@@ -38,10 +38,6 @@ namespace Beatrate.BeFSM
 			public StateConfiguration(StateMachine<TState, TTrigger> machine)
 			{
 				this.machine = machine;
-				EnterAction = (state) => { };
-				ExitAction = (state) => { };
-				UpdateAction = () => { };
-				HasImmediateTransition = false;
 			}
 
 			/// <summary>

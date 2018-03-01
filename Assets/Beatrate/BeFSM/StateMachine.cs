@@ -107,11 +107,7 @@ namespace Beatrate.BeFSM
 
 		private void OnStateChanged(StateChangedEventArgs<TState> args)
 		{
-			EventHandler<StateChangedEventArgs<TState>> handler = StateChanged;
-			if(handler != null)
-			{
-				handler(this, args);
-			}
+			StateChanged?.Invoke(this, args);
 		}
 	}
 }
