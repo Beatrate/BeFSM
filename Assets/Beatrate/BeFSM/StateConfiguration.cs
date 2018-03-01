@@ -13,8 +13,8 @@ namespace Beatrate.BeFSM
 			private StateMachine<TState, TTrigger> machine;
 			private Dictionary<TTrigger, StateCondition> staticTransitions = new Dictionary<TTrigger, StateCondition>();
 			private List<StateCondition> dynamicTransitions = new List<StateCondition>();
-			public Action EnterAction { get; private set; }
-			public Action ExitAction { get; private set; }
+			public Action<TState> EnterAction { get; private set; }
+			public Action<TState> ExitAction { get; private set; }
 			public Action UpdateAction { get; private set; }
 			public bool HasImmediateTransition { get; private set; }
 			public TState ImmediateTransitionDestinationState
@@ -38,8 +38,8 @@ namespace Beatrate.BeFSM
 			public StateConfiguration(StateMachine<TState, TTrigger> machine)
 			{
 				this.machine = machine;
-				EnterAction = () => { };
-				ExitAction = () => { };
+				EnterAction = (state) => { };
+				ExitAction = (state) => { };
 				UpdateAction = () => { };
 				HasImmediateTransition = false;
 			}
@@ -103,6 +103,17 @@ namespace Beatrate.BeFSM
 			/// <returns>Configuration</returns>
 			public StateConfiguration OnEntry(Action enterAction)
 			{
+				EnterAction = (state) => enterAction();
+				return this;
+			}
+
+			/// <summary>
+			/// Configures state's entry action which takes the previous state into account.
+			/// </summary>
+			/// <param name="enterAction">Entry action</param>
+			/// <returns>Configuration</returns>
+			public StateConfiguration OnEntry(Action<TState> enterAction)
+			{
 				EnterAction = enterAction;
 				return this;
 			}
@@ -113,6 +124,17 @@ namespace Beatrate.BeFSM
 			/// <param name="exitAction">Exit action</param>
 			/// <returns>Configuration</returns>
 			public StateConfiguration OnExit(Action exitAction)
+			{
+				ExitAction = (state) => exitAction();
+				return this;
+			}
+
+			/// <summary>
+			/// Configures state's exit action which takes next state into account.
+			/// </summary>
+			/// <param name="exitAction">Exit action</param>
+			/// <returns>Configuration</returns>
+			public StateConfiguration OnExit(Action<TState> exitAction)
 			{
 				ExitAction = exitAction;
 				return this;

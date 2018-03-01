@@ -53,7 +53,7 @@ namespace Beatrate.BeFSM
 		/// </summary>
 		public void Initialize()
 		{
-			stateConfigurations[CurrentState].EnterAction();
+			stateConfigurations[CurrentState].EnterAction(CurrentState);
 			if(stateConfigurations[CurrentState].HasImmediateTransition)
 			{
 				TransitionTo(stateConfigurations[CurrentState].ImmediateTransitionDestinationState);
@@ -95,8 +95,8 @@ namespace Beatrate.BeFSM
 			// are coming from outside the state machine and the
 			// new state was not configured.
 			EnsureStateConfiguration(nextState);
-			stateConfigurations[CurrentState].ExitAction();
-			stateConfigurations[nextState].EnterAction();
+			stateConfigurations[CurrentState].ExitAction(nextState);
+			stateConfigurations[nextState].EnterAction(CurrentState);
 			CurrentState = nextState;
 			OnStateChanged(new StateChangedEventArgs<TState>(nextState));
 			if(stateConfigurations[CurrentState].HasImmediateTransition)
